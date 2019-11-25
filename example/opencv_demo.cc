@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 {
     getopt_t *getopt = getopt_create();
 
-    getopt_add_int(getopt, 'c', "camra", "0", "Select camera id");
+    getopt_add_int(getopt, 'c', "camera", "0", "Select camera id");
     getopt_add_bool(getopt, 'h', "help", 0, "Show this help");
     getopt_add_bool(getopt, 'd', "debug", 1, "Enable debugging output (slow)");
     getopt_add_bool(getopt, 'q', "quiet", 0, "Reduce output");
@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     }
 
     // Initialize camera
+    int cam_id = getopt_get_int(getopt, "camera");
     VideoCapture cap(0);
     if (!cap.isOpened()) {
         cerr << "Couldn't open video capture device" << endl;
