@@ -1083,9 +1083,9 @@ static void do_quad_task(void *p)
         memset(&quad, 0, sizeof(struct quad));
 
         if (fit_quad(td, task->im, cluster, &quad, task->tag_width, task->normal_border, task->reversed_border)) {
-            pthread_mutex_lock(&td->mutex);
+            //pthread_mutex_lock(&td->mutex);
             zarray_add(quads, &quad);
-            pthread_mutex_unlock(&td->mutex);
+            //pthread_mutex_unlock(&td->mutex);
         }
     }
 }

@@ -50,11 +50,12 @@ int main(int argc, char *argv[])
 {
     getopt_t *getopt = getopt_create();
 
+    getopt_add_int(getopt, 'c', "camra", "0", "Select camera id");
     getopt_add_bool(getopt, 'h', "help", 0, "Show this help");
     getopt_add_bool(getopt, 'd', "debug", 1, "Enable debugging output (slow)");
     getopt_add_bool(getopt, 'q', "quiet", 0, "Reduce output");
     getopt_add_string(getopt, 'f', "family", "tag36h11", "Tag family to use");
-    getopt_add_int(getopt, 't', "threads", "1", "Use this many CPU threads");
+    //getopt_add_int(getopt, 't', "threads", "1", "Use this many CPU threads");
     getopt_add_double(getopt, 'x', "decimate", "2.0", "Decimate input image by this factor");
     getopt_add_double(getopt, 'b', "blur", "0.0", "Apply low-pass blur to input");
     getopt_add_bool(getopt, '0', "refine-edges", 1, "Spend more time trying to align edges of tags");
@@ -102,7 +103,7 @@ int main(int argc, char *argv[])
     apriltag_detector_add_family(td, tf);
     td->quad_decimate = getopt_get_double(getopt, "decimate");
     td->quad_sigma = getopt_get_double(getopt, "blur");
-    td->nthreads = getopt_get_int(getopt, "threads");
+    td->nthreads = 1; // getopt_get_int(getopt, "threads");
     td->debug = getopt_get_bool(getopt, "debug");
     td->refine_edges = getopt_get_bool(getopt, "refine-edges");
 
@@ -112,10 +113,10 @@ int main(int argc, char *argv[])
         cvtColor(frame, gray, COLOR_BGR2GRAY);
 
         // Make an image_u8_t header for the Mat data
-        image_u8_t im = { .width = gray.cols,
-            .height = gray.rows,
-            .stride = gray.cols,
-            .buf = gray.data
+        image_u8_t im = { gray.cols, // .width
+             gray.rows, // .height 
+             gray.cols, // .stride
+             gray.data  // .buf 
         };
 
         zarray_t *detections = apriltag_detector_detect(td, &im);
