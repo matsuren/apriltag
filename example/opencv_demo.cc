@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
     // Initialize camera
     int cam_id = getopt_get_int(getopt, "camera");
-    VideoCapture cap(0);
+    VideoCapture cap(cam_id);
     if (!cap.isOpened()) {
         cerr << "Couldn't open video capture device" << endl;
         return -1;
